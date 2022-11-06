@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
+    <div v-show="showElement">Visible only three seconds</div>
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import axios from "axios";
 
 const weatherData = ref({});
 const requestError = ref({});
+const loadingIconDiv = ref<boolean>(true);
 
 interface WeatherForecast {
   cod: String;
@@ -98,17 +100,25 @@ async function fetchData() {
     });
 }
 
+function loadingIcon() {
+  setTimeout(() => {
+    loadingIconDiv.value = false;
+    console.log("aaaS");
+  }, 3000);
+  console.log(loadingIconDiv.value);
+}
+
 export default defineComponent({
   name: "WeatherData",
   data() {
-    return {
-      info: null,
-    };
+    return { showElement: loadingIconDiv.value };
   },
   methods: {},
   setup() {
     fetchData();
+    loadingIcon();
   },
+  mount() {},
 });
 </script>
 
