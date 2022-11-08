@@ -1,6 +1,13 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <v-text-field label="Name" required variant="underlined">11</v-text-field>
+    <v-text-field label="E-mail" required variant="underlined"
+      >111</v-text-field
+    >
+
+    <v-btn class="mr-4"> submit </v-btn>
+    <v-btn> clear </v-btn>
+
     <div v-show="loadingIconDiv" class="loading-icon"></div>
     <div v-for="(item, index) in weatherData" :key="index">
       <h1>{{ item.datetime }}</h1>
