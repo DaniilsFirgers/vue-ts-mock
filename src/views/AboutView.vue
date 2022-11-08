@@ -1,12 +1,12 @@
 <template>
   <div class="about">
-    <v-text-field label="Name" required variant="underlined">11</v-text-field>
-    <v-text-field label="E-mail" required variant="underlined"
-      >111</v-text-field
-    >
-
-    <v-btn class="mr-4"> submit </v-btn>
-    <v-btn> clear </v-btn>
+    <form class="submit-form">
+      <label for="lat">Latitude</label>
+      <input type="text" id="lat" class="weather-input-field" />
+      <label for="lon">Longitude</label>
+      <input type="text" id="lon" class="weather-input-field" />
+      <input type="submit" value="Submit" class="weather-submit-button" />
+    </form>
 
     <div v-show="loadingIconDiv" class="loading-icon"></div>
     <div v-for="(item, index) in weatherData" :key="index">
@@ -89,5 +89,30 @@ onMounted(() => {
   100% {
     transform: rotate(360deg);
   }
+}
+.submit-form {
+  border: solid 2px blue;
+  width: 20vw;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.weather-submit-button {
+  border: 1px;
+  width: 40%;
+  border-radius: 5px;
+  border-color: black;
+  background-color: blue;
+  color: white;
+  box-shadow: 0 8px 16px 0 rgba(3, 138, 255, 0.55),
+    0 6px 20px 0 rgba(3, 138, 255, 0.49);
+}
+
+.weather-input-field {
+  background-color: lightgrey;
+  border-radius: 5px;
 }
 </style>
