@@ -1,13 +1,34 @@
 <template>
   <div class="about">
-    <form class="submit-form">
+    <form class="submit-form" id="weather-data-submit">
       <label for="lat">Latitude</label>
-      <input type="text" id="lat" class="weather-input-field" />
+      <input
+        type="text"
+        id="lat"
+        class="weather-input-field"
+        v-model="latitudeInput"
+      />
       <label for="lon">Longitude</label>
-      <input type="text" id="lon" class="weather-input-field" />
-      <input type="submit" value="Submit" class="weather-submit-button" />
-    </form>
+      <input
+        type="text"
+        id="lon"
+        class="weather-input-field"
+        v-model="longitudeInput"
+      />
 
+      {{ latitudeInput }}
+    </form>
+    <button
+      type="button"
+      class="weather-submit-button"
+      value="Submit"
+      form="weather-data-submit"
+      @click="submitForm"
+    >
+      Submit
+    </button>
+
+    <div></div>
     <div v-show="loadingIconDiv" class="loading-icon"></div>
     <div v-for="(item, index) in weatherData" :key="index">
       <h1>{{ item.datetime }}</h1>
@@ -16,8 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
+
+let latitudeInput = ref();
+let longitudeInput = ref();
 
 let weatherData = ref<
   {
@@ -31,13 +55,18 @@ let weatherData = ref<
 const requestError = ref({});
 const loadingIconDiv = ref<boolean>(true);
 
-const fetchData = async () => {
+const submitForm = async () => {
   await axios
-    .get(
-      "https://api.openweathermap.org/data/2.5/forecast?lat=56.946&lon=24.10589&appid=e3f9a6c2b88332ca04725bd27f037716"
-    )
+    .get("https://api.openweathermap.org/data/2.5/forecast", {
+      params: {
+        lat: latitudeInput.value,
+        lon: longitudeInput.value,
+        appid: "e3f9a6c2b88332ca04725bd27f037716",
+      },
+    })
     .then((response) => {
       const data: WeatherForecast = response.data;
+      console.log("response: ", data);
       const arrayOfHourlyData = data.list;
 
       var arrayOfWeatherObjects: any = [];
@@ -53,7 +82,8 @@ const fetchData = async () => {
         arrayOfWeatherObjects.push(weatherObject);
       });
       weatherData.value = arrayOfWeatherObjects;
-      console.log("data", weatherData.value);
+      longitudeInput.value = null;
+      latitudeInput.value = null;
     })
     .catch((err) => {
       console.log(err);
@@ -69,7 +99,13 @@ const loadingIcon = () => {
 
 onMounted(() => {
   loadingIcon();
-  fetchData();
+});
+watch(latitudeInput, (newValue) => {
+  latitudeInput.value = newValue;
+});
+
+watch(longitudeInput, (newValue) => {
+  longitudeInput.value = newValue;
 });
 </script>
 
@@ -102,7 +138,8 @@ onMounted(() => {
 
 .weather-submit-button {
   border: 1px;
-  width: 40%;
+  width: 5vw;
+  height: 2wh;
   border-radius: 5px;
   border-color: black;
   background-color: blue;
