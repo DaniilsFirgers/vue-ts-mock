@@ -1,37 +1,40 @@
 <template>
-  <div class="about">
-    <form class="submit-form" id="weather-data-submit">
-      <label for="lat">Latitude</label>
-      <input
-        type="text"
-        id="lat"
-        class="weather-input-field"
-        v-model="latitudeInput"
-      />
-      <label for="lon">Longitude</label>
-      <input
-        type="text"
-        id="lon"
-        class="weather-input-field"
-        v-model="longitudeInput"
-      />
+  <div class="main">
+    <div class="weather-info">
+      <form class="submit-form" id="weather-data-submit">
+        <label for="lat">Latitude</label>
+        <input
+          type="text"
+          id="lat"
+          class="weather-input-field"
+          v-model="latitudeInput"
+        />
+        <label for="lon">Longitude</label>
+        <input
+          type="text"
+          id="lon"
+          class="weather-input-field"
+          v-model="longitudeInput"
+        />
+        <button
+          type="button"
+          class="weather-submit-button"
+          value="Submit"
+          form="weather-data-submit"
+          @click="submitForm"
+        >
+          Submit
+        </button>
+      </form>
 
-      {{ latitudeInput }}
-    </form>
-    <button
-      type="button"
-      class="weather-submit-button"
-      value="Submit"
-      form="weather-data-submit"
-      @click="submitForm"
-    >
-      Submit
-    </button>
-
-    <div></div>
-    <div v-show="loadingIconDiv" class="loading-icon"></div>
-    <div v-for="(item, index) in weatherData" :key="index">
-      <h1>{{ item.datetime }}</h1>
+      <div></div>
+      <div v-show="loadingIconDiv" class="loading-icon"></div>
+      <div v-for="(item, index) in weatherData" :key="index">
+        <h1>{{ item.datetime }}</h1>
+      </div>
+    </div>
+    <div class="map">
+      <h1>aaaaa</h1>
     </div>
   </div>
 </template>
@@ -110,6 +113,16 @@ watch(longitudeInput, (newValue) => {
 </script>
 
 <style>
+.main {
+  display: flex;
+  flex-direction: row;
+}
+.weather-info {
+  width: 50%;
+}
+.map {
+  flex-grow: 1;
+}
 .loading-icon {
   border: 16px solid #f3f3f3;
   border-top: 16px solid #3498db;
