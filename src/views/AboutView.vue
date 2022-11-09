@@ -46,6 +46,8 @@ import axios from "axios";
 let latitudeInput = ref();
 let longitudeInput = ref();
 
+var errorSound = new Audio("/audio/error_sound.mp3");
+
 let weatherData = ref<
   {
     datetime: number;
@@ -85,12 +87,14 @@ const submitForm = async () => {
         arrayOfWeatherObjects.push(weatherObject);
       });
       weatherData.value = arrayOfWeatherObjects;
+
       longitudeInput.value = null;
       latitudeInput.value = null;
     })
     .catch((err) => {
       console.log(err);
       requestError.value == err;
+      errorSound.play();
     });
 };
 
