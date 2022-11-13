@@ -29,7 +29,12 @@
 
       <div></div>
       <div v-show="loadingIconDiv" class="loading-icon"></div>
-      <div v-for="(item, index) in weatherData" :key="index">
+      <div v-show="requestError" class="request-error">Oops, error</div>
+      <div
+        v-for="(item, index) in weatherData"
+        :key="index"
+        v-show="!requestError"
+      >
         <h1>{{ item.datetime }}</h1>
       </div>
     </div>
@@ -57,7 +62,7 @@ let weatherData = ref<
     humidity: number;
   }[]
 >([]);
-const requestError = ref({});
+const requestError = ref<boolean>(false);
 const loadingIconDiv = ref<boolean>(true);
 
 const submitForm = async () => {
@@ -74,6 +79,8 @@ const submitForm = async () => {
       console.log("response: ", data);
       const arrayOfHourlyData = data.list;
 
+      requestError.value = false;
+
       var arrayOfWeatherObjects: any = [];
 
       arrayOfHourlyData.forEach((el) => {
@@ -87,13 +94,15 @@ const submitForm = async () => {
         arrayOfWeatherObjects.push(weatherObject);
       });
       weatherData.value = arrayOfWeatherObjects;
+      console.log(requestError);
 
       longitudeInput.value = null;
       latitudeInput.value = null;
     })
     .catch((err) => {
       console.log(err);
-      requestError.value == err;
+      requestError.value = true;
+      console.log(requestError);
       errorSound.play();
     });
 };
