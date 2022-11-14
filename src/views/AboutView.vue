@@ -48,18 +48,20 @@
       </ul>
     </div>
     <div class="map">
+      <p>{{ currentTime.toLocaleString() }}</p>
       <h1>aaaaa</h1>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
 
 let latitudeInput = ref();
 let longitudeInput = ref();
+const currentTime = ref(new Date());
 
 var errorSound = new Audio("/audio/error_sound.mp3");
 
@@ -123,6 +125,15 @@ const loadingIcon = () => {
   }, 3000);
 };
 
+const updateCurrentTime = () => {
+  currentTime.value = new Date();
+};
+
+const updateTimeInterval = setInterval(updateCurrentTime, 1000);
+
+onBeforeUnmount(() => {
+  clearInterval(updateTimeInterval);
+});
 onMounted(() => {
   loadingIcon();
 });
