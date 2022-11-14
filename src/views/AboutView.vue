@@ -50,6 +50,7 @@
     <div class="map">
       <p>{{ currentTime.toLocaleString() }}</p>
       <h1>aaaaa</h1>
+      <ExcelModal msg="Hello" />
     </div>
   </div>
 </template>
@@ -58,6 +59,7 @@
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
+import ExcelModal from "../components/ExcelModal.vue";
 
 let latitudeInput = ref();
 let longitudeInput = ref();
