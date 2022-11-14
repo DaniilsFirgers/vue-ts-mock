@@ -1,42 +1,51 @@
 <template>
   <div class="main">
     <div class="weather-info">
-      <form class="submit-form" id="weather-data-submit">
-        <label for="lat">Latitude</label>
-        <input
-          type="text"
-          id="lat"
-          class="weather-input-field"
-          v-model="latitudeInput"
-        />
-        <label for="lon">Longitude</label>
-        <input
-          type="text"
-          id="lon"
-          class="weather-input-field"
-          v-model="longitudeInput"
-        />
-        <button
-          type="button"
-          class="weather-submit-button"
-          value="Submit"
-          form="weather-data-submit"
-          @click="submitForm"
-        >
-          Submit
-        </button>
-      </form>
+      <div class="submut-form-component">
+        <form class="submit-form" id="weather-data-submit">
+          <label for="lat">Latitude</label>
+          <input
+            type="text"
+            id="lat"
+            class="weather-input-field"
+            v-model="latitudeInput"
+          />
+          <label for="lon">Longitude</label>
+          <input
+            type="text"
+            id="lon"
+            class="weather-input-field"
+            v-model="longitudeInput"
+          />
+          <button
+            type="button"
+            class="weather-submit-button"
+            value="Submit"
+            form="weather-data-submit"
+            @click="submitForm"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
 
       <div></div>
       <div v-show="loadingIconDiv" class="loading-icon"></div>
       <div v-show="requestError" class="request-error">Oops, error</div>
-      <div
+      <ul
         v-for="(item, index) in weatherData"
         :key="index"
-        v-show="!requestError"
+        v-if="!requestError"
+        class="forecast-interval-data"
       >
-        <h1>{{ item.datetime }}</h1>
-      </div>
+        <li>
+          Date: {{ moment(item.datetime * 1000).format("DD/MM/YYYY hh:mm:ss") }}
+        </li>
+        <li>
+          Temperature:
+          {{ Math.round((item.temperature - 273.15) * 100) / 100 }}
+        </li>
+      </ul>
     </div>
     <div class="map">
       <h1>aaaaa</h1>
@@ -47,6 +56,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
+import moment from "moment";
 
 let latitudeInput = ref();
 let longitudeInput = ref();
@@ -177,5 +187,15 @@ watch(longitudeInput, (newValue) => {
 .weather-input-field {
   background-color: lightgrey;
   border-radius: 5px;
+}
+.forecast-interval-data {
+  margin: 5px;
+  border: solid 2px blue;
+}
+.weather-info > div:first-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
