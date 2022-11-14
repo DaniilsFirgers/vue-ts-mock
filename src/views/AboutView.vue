@@ -39,11 +39,11 @@
         class="forecast-interval-data"
       >
         <li>
-          Date: {{ moment(item.datetime * 1000).format("DD/MM/YYYY hh:mm:ss") }}
+          Date: {{ moment(item.datetime * 1000).format("DD/MM/YYYY HH:mm:ss") }}
         </li>
         <li>
           Temperature:
-          {{ Math.round((item.temperature - 273.15) * 100) / 100 }}
+          {{ Math.round((item.temperature - 273.15) * 10) / 10 }}
         </li>
       </ul>
     </div>
