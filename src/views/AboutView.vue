@@ -1,7 +1,15 @@
 <template>
   <div class="main">
     <div class="weather-info">
-      <div class="submut-form-component">
+      <div
+        @mouseover="handleMouseOverInfo"
+        @mouseleave="handleMouseLeaveInfo"
+        class="hover-info-button"
+      >
+        INFO
+      </div>
+      <component :is="infoModalState ? InfoModal : null" />
+      <div class="submit-form-component">
         <form class="submit-form" id="weather-data-submit">
           <label for="lat">Latitude</label>
           <input
@@ -50,7 +58,6 @@
     <div class="map">
       <p>{{ currentTime.toLocaleString() }}</p>
       <h1>aaaaa</h1>
-      <ExcelModal msg="Hello" />
     </div>
   </div>
 </template>
@@ -59,7 +66,7 @@
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
-import ExcelModal from "../components/ExcelModal.vue";
+import InfoModal from "../components/InfoModal.vue";
 
 let latitudeInput = ref();
 let longitudeInput = ref();
@@ -78,6 +85,7 @@ let weatherData = ref<
 >([]);
 const requestError = ref<boolean>(false);
 const loadingIconDiv = ref<boolean>(true);
+const infoModalState = ref<boolean>(false);
 
 const submitForm = async () => {
   await axios
@@ -131,6 +139,13 @@ const updateCurrentTime = () => {
   currentTime.value = new Date();
 };
 
+const handleMouseOverInfo = () => {
+  infoModalState.value = true;
+};
+const handleMouseLeaveInfo = () => {
+  infoModalState.value = false;
+};
+
 const updateTimeInterval = setInterval(updateCurrentTime, 1000);
 
 onBeforeUnmount(() => {
@@ -176,6 +191,7 @@ watch(longitudeInput, (newValue) => {
   }
 }
 .submit-form {
+  z-index: 1;
   border: solid 2px blue;
   width: 20vw;
   height: 40vh;
@@ -184,9 +200,15 @@ watch(longitudeInput, (newValue) => {
   justify-content: flex-start;
   align-items: center;
 }
-
+.submit-form-component {
+  z-index: 1 !important;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 .weather-submit-button {
-  border: 1px;
   width: 5vw;
   height: 2wh;
   border-radius: 5px;
@@ -205,9 +227,21 @@ watch(longitudeInput, (newValue) => {
   margin: 5px;
   border: solid 2px blue;
 }
-.weather-info > div:first-child {
+.weather-info > div:nth-child(2) {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hover-info-button {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: #4169e1;
+  color: white;
+  font-weight: bold;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
