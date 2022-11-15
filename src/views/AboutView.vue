@@ -56,21 +56,19 @@
       </ul>
     </div>
     <div class="map">
-      <p>{{ currentTime.toLocaleString() }}</p>
-      <h1>aaaaa</h1>
+      <h1>aaaa</h1>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
 import InfoModal from "../components/InfoModal.vue";
 
 let latitudeInput = ref();
 let longitudeInput = ref();
-const currentTime = ref(new Date());
 
 var errorSound = new Audio("/audio/error_sound.mp3");
 
@@ -135,10 +133,6 @@ const loadingIcon = () => {
   }, 3000);
 };
 
-const updateCurrentTime = () => {
-  currentTime.value = new Date();
-};
-
 const handleMouseOverInfo = () => {
   infoModalState.value = true;
 };
@@ -146,11 +140,6 @@ const handleMouseLeaveInfo = () => {
   infoModalState.value = false;
 };
 
-const updateTimeInterval = setInterval(updateCurrentTime, 1000);
-
-onBeforeUnmount(() => {
-  clearInterval(updateTimeInterval);
-});
 onMounted(() => {
   loadingIcon();
 });
