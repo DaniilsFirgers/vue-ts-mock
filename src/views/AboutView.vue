@@ -56,8 +56,10 @@
       </ul>
     </div>
     <div class="map">
-      <h1>aaaa</h1>
+      <button @click="handleEmailButtonClick">Button</button>
+      <EmailModal :showModal="emailModalState" />
     </div>
+    <div class="overlay" v-show="emailModalState"></div>
   </div>
 </template>
 
@@ -66,6 +68,7 @@ import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
 import InfoModal from "../components/InfoModal.vue";
+import EmailModal from "../components/EmailModal.vue";
 
 let latitudeInput = ref();
 let longitudeInput = ref();
@@ -84,6 +87,7 @@ let weatherData = ref<
 const requestError = ref<boolean>(false);
 const loadingIconDiv = ref<boolean>(true);
 const infoModalState = ref<boolean>(false);
+const emailModalState = ref<boolean>(false);
 
 const submitForm = async () => {
   await axios
@@ -140,6 +144,9 @@ const handleMouseLeaveInfo = () => {
   infoModalState.value = false;
 };
 
+const handleEmailButtonClick = () => {
+  emailModalState.value = !emailModalState.value;
+};
 onMounted(() => {
   loadingIcon();
 });
@@ -236,5 +243,15 @@ watch(longitudeInput, (newValue) => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 3;
 }
 </style>
