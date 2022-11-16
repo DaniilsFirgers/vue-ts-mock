@@ -158,6 +158,9 @@ watch(longitudeInput, (newValue) => {
   flex-direction: row;
 }
 .weather-info {
+  min-height: calc(100vh - 30px);
+  border: solid 2px grey;
+  border-top: 0;
   width: 50%;
 }
 .map {
