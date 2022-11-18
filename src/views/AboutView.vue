@@ -56,7 +56,9 @@
       </ul>
     </div>
     <div class="map">
-      <button @click="handleEmailButtonClick">Button</button>
+      <button @click="handleEmailButtonClick" class="email-button">
+        Button
+      </button>
       <div v-on-click-outside="closeEmailModal">
         <EmailModal :showModal="emailModalState" />
       </div>
@@ -260,5 +262,36 @@ watch(longitudeInput, (newValue) => {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 3;
+}
+
+/* button to open email modal */
+.email-button {
+  background: #6495ed;
+  padding: 5px 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+
+  animation-name: email-button;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes email-button {
+  0% {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    background: #2e8b57;
+    transform: scale(1.25);
+  }
+  100% {
+    opacity: 1;
+
+    transform: scale(1);
+  }
 }
 </style>
