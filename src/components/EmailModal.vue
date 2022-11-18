@@ -1,13 +1,19 @@
 <template>
-  <div class="email-form-component" v-if="showModal">Aaaa</div>
+  <div class="email-form-component" v-if="showModal"  >Aaaa</div>
 </template>
 
 <script setup lang="ts">
+import { vOnClickOutside } from '@vueuse/components'
+import { ref } from 'vue';
+
+
 const props = defineProps({
   showModal: {
     type: Boolean,
   },
 });
+
+
 </script>
 
 <style>

@@ -57,7 +57,9 @@
     </div>
     <div class="map">
       <button @click="handleEmailButtonClick">Button</button>
-      <EmailModal :showModal="emailModalState" />
+      <div v-on-click-outside="closeEmailModal">
+        <EmailModal :showModal="emailModalState" />
+      </div>
     </div>
     <div class="overlay" v-show="emailModalState"></div>
   </div>
@@ -65,6 +67,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
+import { vOnClickOutside } from "@vueuse/components";
 import axios from "axios";
 import moment from "moment";
 import InfoModal from "../components/InfoModal.vue";
@@ -130,6 +133,10 @@ const submitForm = async () => {
       errorSound.play();
     });
 };
+
+function closeEmailModal() {
+  emailModalState.value = false;
+}
 
 const loadingIcon = () => {
   setTimeout(() => {
